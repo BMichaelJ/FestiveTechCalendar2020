@@ -1,0 +1,184 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationInsightsName": {
+            "type": "string"
+        },
+        "actionGroupName": {
+        "type": "string",
+        "metadata": {
+          "description": "Unique name within the resource group for the Action group."
+        }
+      },
+      "actionGroupShortName": {
+        "type": "string",
+        "metadata": {
+          "description": "Short name up to 12 characters for the Action group."
+        }
+      },
+       "AlertEmail": {
+        "type": "string"
+      },
+      "AlertEmailAddress": {
+        "type": "string"
+        }
+    },
+  
+        "resources": [
+        {
+            "name": "[parameters('applicationInsightsName')]",
+            "type": "microsoft.insights/components",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-05-01",
+            "properties": {
+                "ApplicationId": "[parameters('applicationInsightsName')]",
+                "Application_Type": "general"
+               
+            },
+    
+      "resources": [
+        {
+          "apiVersion": "2018-05-01-preview",
+          "name": "slowpageloadtime",
+          "type": "ProactiveDetectionConfigs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+          "properties": {
+            "name": "slowpageloadtime",
+            "sendEmailsToSubscriptionOwners": true,
+            "customEmails": ["[parameters('AlertEmailAddress')]"],
+            "enabled": true
+          }
+        },
+        {
+          "apiVersion": "2018-05-01-preview",
+          "name": "slowserverresponsetime",
+          "type": "ProactiveDetectionConfigs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+          "properties": {
+            "name": "slowserverresponsetime",
+            "sendEmailsToSubscriptionOwners": true,
+            "customEmails": ["[parameters('AlertEmailAddress')]"],
+            "enabled": true
+          }
+        },
+        {
+          "apiVersion": "2018-05-01-preview",
+          "name": "longdependencyduration",
+          "type": "ProactiveDetectionConfigs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+          "properties": {
+            "name": "longdependencyduration",
+            "sendEmailsToSubscriptionOwners": true,
+            "customEmails": ["[parameters('AlertEmailAddress')]"],
+            "enabled": true
+          }
+        },
+        {
+          "apiVersion": "2018-05-01-preview",
+          "name": "degradationinserverresponsetime",
+          "type": "ProactiveDetectionConfigs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+          "properties": {
+            "name": "degradationinserverresponsetime",
+            "sendEmailsToSubscriptionOwners": true,
+            "customEmails": ["[parameters('AlertEmailAddress')]"],
+            "enabled": true
+          }
+        },
+        {
+          "apiVersion": "2018-05-01-preview",
+          "name": "degradationindependencyduration",
+          "type": "ProactiveDetectionConfigs",
+          "location": "[resourceGroup().location]",
+          "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+          "properties": {
+            "name": "degradationindependencyduration",
+            "sendEmailsToSubscriptionOwners": true,
+            "customEmails": ["[parameters('AlertEmailAddress')]"],
+            "enabled": true
+          }
+        },
+        {
+        "type": "Microsoft.Insights/actionGroups",
+        "apiVersion": "2018-03-01",
+        "name": "[parameters('actionGroupName')]",
+        "location": "Global",
+        "dependsOn":[
+          "[parameters('applicationInsightsName')]"
+        ],
+        "properties": {
+          "groupShortName": "[parameters('actionGroupShortName')]",
+          "enabled": true,
+          "armRoleReceivers": [
+            {
+                "name": "Monitoring Contributor",
+                "roleId": "749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+                "useCommonAlertSchema": "true"
+            },
+            {
+                 "name": "Monitoring Reader",
+                "roleId": "43d0d8ad-25c7-4714-9337-8ba259a9fe05",
+                "useCommonAlertSchema": "true"  
+            }  
+          ],
+          
+          "emailReceivers": [
+            {
+              "name": "[parameters('AlertEmail')]",
+              "emailAddress": "[parameters('AlertEmailAddress')]",
+              "useCommonAlertSchema": true
+            }
+            
+          ]
+          
+        }
+      },
+        {
+            "type": "microsoft.alertsmanagement/smartdetectoralertrules",
+            "apiVersion": "2019-03-01",
+            "name": "[concat('Failure Anomalies-',  parameters('applicationInsightsName'))]",
+            "location": "global", 
+            "dependsOn": [
+            "[parameters('applicationInsightsName')]"
+          ],
+            "properties": {
+                  "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls.",
+                  "state": "Enabled",
+                  "severity": "3",
+                  "frequency": "PT1M",
+                  "detector": {
+                  "id": "FailureAnomaliesDetector"
+                  },
+                 "scope":[
+                     "[resourceId('microsoft.insights/components', parameters('applicationInsightsName'))]"
+                 ],
+                  "actionGroups": {
+                        "groupIds": [
+                            "[resourceId('microsoft.insights/actiongroups', parameters('actionGroupName'))]"
+                        ]
+                  }
+            }
+            }
+      ]
+                
+        }
+         
+                  
+    ],
+    "outputs": {}
+}
