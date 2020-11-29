@@ -17,7 +17,7 @@
           "description": "Short name up to 12 characters for the Action group."
         }
       },
-       "AlertEmail": {
+       "AlertEmailReceiver": {
         "type": "string"
       },
       "AlertEmailAddress": {
@@ -139,7 +139,7 @@
           
           "emailReceivers": [
             {
-              "name": "[parameters('AlertEmail')]",
+              "name": "[parameters('AlertEmailReceiver')]",
               "emailAddress": "[parameters('AlertEmailAddress')]",
               "useCommonAlertSchema": true
             }
