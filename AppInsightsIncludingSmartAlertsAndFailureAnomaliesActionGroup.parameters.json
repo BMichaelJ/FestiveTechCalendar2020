@@ -1,0 +1,21 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "applicationInsightsName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "actionGroupName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "actionGroupShortName": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "AlertEmailReceiver": {
+            "value": "" // TODO: Fill in parameter value
+        },
+        "AlertEmailAddress": {
+            "value": "" // TODO: Fill in parameter value
+        }
+    }
+}

@@ -1,14 +1,11 @@
-#Parameters to be used
-
+#Parameters to be used, change accordingly
 $Location = "NorthEurope"
-
-$MonitoringRGName = "SantaOperationsRG"
-
-$applicationInsightsName = "FestiveTechAI1"
-$ActionGroupName = "SeriousElfAlerts"
-$ActionGroupResourceGroup = $MonitoRingRGName
-$AlertEmailAddress = "joulupukki@Nordpolen.fi"
-
+$RGName = "TechFestiveRG"
+$applicationInsightsName = "TechFestiveAI"
+$actionGroupName = "AlertTechFestiveAG"
+$actionGroupShortName = "AlertTF"
+$alertEmailReceiver = "Santa"
+$alertEmailAddress = "santa@jukkasjarvi.com"
 
 #Connect to Azure
 Connect-AzAccount
@@ -17,5 +14,14 @@ Connect-AzAccount
 Get-AzSubscription -SubscriptionName "YOURSUBNAME" | Select-AzSubscription
 
 #Create the Resource Group
-New-AzResourceGroup  -Name $MonitoringRGName `
+New-AzResourceGroup  -Name $RGName `
 -Location $Location
+
+#Create the Application insights instance
+New-AzResourceGroupDeployment -ResourceGroupName $RGName `
+-TemplateFile .\AppInsightsIncludingSmartAlertsAndFailureAnomaliesActionGroup.json `
+-applicationInsightsName $applicationInsightsName `
+-actionGroupName $actionGroupName `
+-actionGroupShortName $actionGroupShortName `
+-alertEmailReceiver $alertEmailReceiver `
+-alertEmailAddress $alertEmailAddress

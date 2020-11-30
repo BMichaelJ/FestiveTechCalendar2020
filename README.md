@@ -1,4 +1,7 @@
 # FestiveTechCalendar2020
-Contribution to https://festivetechcalendar.com/
+This is a Contribution to https://festivetechcalendar.com.
 
-Read the blog post and listen to the podcast episode
+Read the full blog post: https://azurefabric.com/azure-monitor-for-paas-services-where-is-the-ai-and-how-do-i-arm-it/
+
+
+Listen to the pod: (link coming)
