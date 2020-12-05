@@ -4,8 +4,8 @@ $RGName = "TechFestiveRG"
 $applicationInsightsName = "TechFestiveAI"
 $actionGroupName = "AlertTechFestiveAG"
 $actionGroupShortName = "AlertTF"
-$alertEmailReceiver = "Santa"
-$alertEmailAddress = "santa@jukkasjarvi.com"
+$alertEmailReceiver = "name of the mail receiver"
+$alertEmailAddress = "enter email"
 
 #Connect to Azure
 Connect-AzAccount
