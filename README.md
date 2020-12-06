@@ -3,6 +3,8 @@ This is a Contribution to https://festivetechcalendar.com
 
 Read the full blog post: https://azurefabric.com/azure-monitor-for-paas-services-where-is-the-ai-and-how-do-i-arm-it/
 
+Listen to the Podcast walk through on the Modern IT Podcast: https://modernitpodcast.simplecast.com/episodes/proactive-monitoring-and-azure-and-festive-tech-calendar
+
 Template does the following.
 
 - Creates the application insights instance with Type “general” (This I have tried to understand deeper but failing to find the docs for it, if you know please reach out on twitter :))
